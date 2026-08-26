@@ -139,8 +139,10 @@ function App() {
     const anchor = document.createElement("a");
     anchor.href = url;
     anchor.download = "agent-control-lab-audit.json";
+    document.body.appendChild(anchor);
     anchor.click();
-    URL.revokeObjectURL(url);
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
   }
 
   const pipelineState = (index: number) => {
@@ -178,7 +180,7 @@ function App() {
               {['Role','Proposal','Policy','Approval','Tool','Audit'].map((label,index) => <div key={label}><i>{String(index + 1).padStart(2,'0')}</i><span>{label}</span></div>)}
             </div>
             <div className="hero-decision"><span>POLICY RESULT</span><strong>Approval required</strong><small>ACL-REVIEW-001 · account recovery</small></div>
-            <p>No model, network or organisational system is connected.</p>
+            <p>No model, external service or organisational system is connected.</p>
           </div>
         </section>
 
@@ -190,8 +192,8 @@ function App() {
 
         <section className="lab-section" id="lab">
           <div className="section-heading"><p>02 / INTERACTIVE LAB</p><h2>Choose a scenario.<br />Watch the control path.</h2></div>
-          <div className="scenario-tabs" role="tablist" aria-label="Synthetic scenarios">
-            {scenarios.map(item => <button key={item.id} type="button" role="tab" aria-selected={item.id === scenario.id} onClick={() => chooseScenario(item.id)}><span>{item.shortName}</span><strong>{item.name}</strong><small>{item.summary}</small></button>)}
+          <div className="scenario-tabs" role="group" aria-label="Synthetic scenarios">
+            {scenarios.map(item => <button key={item.id} type="button" aria-pressed={item.id === scenario.id} onClick={() => chooseScenario(item.id)}><span>{item.shortName}</span><strong>{item.name}</strong><small>{item.summary}</small></button>)}
           </div>
 
           <div className="lab-console">
@@ -220,7 +222,7 @@ function App() {
                 {[
                   ['Role','Assigned simulation role'],
                   ['Policy', decision ? `${outcomeLabels[decision.outcome]} · ${decision.reasonCode}` : 'Waiting for proposal'],
-                  ['Approval', phase === 'awaiting-approval' ? 'Human decision required' : phase === 'complete' ? 'Satisfied or not required' : phase === 'rejected' ? 'Rejected by reviewer' : 'Not requested'],
+                  ['Approval', phase === 'awaiting-approval' ? 'Human decision required' : phase === 'complete' && decision?.outcome === 'approval' ? 'Approved once' : phase === 'complete' ? 'Not required' : phase === 'rejected' ? 'Rejected by reviewer' : 'Not requested'],
                   ['Simulated tool', phase === 'complete' ? 'Synthetic execution complete' : phase === 'denied' || phase === 'rejected' ? 'Not executed' : 'Not called'],
                   ['Verification', phase === 'complete' ? 'Expected state confirmed' : 'No result to verify'],
                 ].map(([title,detail],index) => <div className={`pipeline-node is-${pipelineState(index)}`} key={title}><span>{String(index + 1).padStart(2,'0')}</span><div><strong>{title}</strong><small>{detail}</small></div><i aria-hidden="true" /></div>)}
@@ -273,7 +275,7 @@ function App() {
             <article><span>01</span><h3>Injection-style instruction</h3><p>An untrusted instruction can influence a proposal, but it does not change the permissions assigned to the simulated agent.</p></article>
             <article><span>02</span><h3>Privilege-escalation request</h3><p>The policy engine denies administrator-creation and bulk-export proposals when the assigned role lacks permission.</p></article>
             <article><span>03</span><h3>Client-side boundary</h3><p>The rules can be inspected or modified. They model an authorisation boundary within the demonstration but are not a secure server-side enforcement point.</p></article>
-            <article><span>04</span><h3>Local audit only</h3><p><code>localStorage</code> is device-local and neither durable nor access-controlled. The app falls back to temporary memory when it is unavailable.</p></article>
+            <article><span>04</span><h3>Local audit only</h3><p><code>localStorage</code> is browser-local and neither durable nor access-controlled. The app falls back to temporary memory when it is unavailable.</p></article>
             <article><span>05</span><h3>Simulated agent</h3><p>Structured JSON fixtures simulate proposed actions. No LLM, external API, personal data or organisational system is connected.</p></article>
             <article><span>06</span><h3>No production claim</h3><p>The lab is a documented learning project. Its four scenarios and five tools are intentionally small and cannot represent a complete governance platform.</p></article>
           </div>
