@@ -4,6 +4,8 @@
 
 Agent Control Lab is a browser-based simulation of AI-agent governance and security controls. It models how a synthetic support agent proposes a tool action, how a deterministic policy engine evaluates the assigned role, when human approval is required and what is recorded afterwards.
 
+![Agent Control Lab interface showing its project introduction and browser-based control flow](docs/agent-control-lab-overview.png)
+
 The project does **not** run a real language model, connect to organisational systems or provide a production security boundary. Its purpose is to make the control logic inspectable.
 
 ## What it demonstrates
