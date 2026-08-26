@@ -263,7 +263,7 @@ function App() {
         <section className="architecture-section" id="architecture">
           <div className="section-heading compact"><p>05 / ARCHITECTURE</p><h2>The policy engine—not the simulated agent—owns the decision.</h2></div>
           <div className="architecture-diagram" aria-label="Agent Control Lab architecture">
-            <div className="architecture-lane"><span>UNTRUSTED</span><div><strong>Visitor prompt</strong><small>Synthetic instruction</small></div><b>→</b><div><strong>Agent simulator</strong><small>Structured proposal</small></div></div>
+            <div className="architecture-lane"><span>UNTRUSTED</span><div><strong>Scenario instruction</strong><small>Synthetic instruction</small></div><b>→</b><div><strong>Agent simulator</strong><small>Structured proposal</small></div></div>
             <div className="architecture-gate"><span>SIMULATED AUTHORISATION BOUNDARY</span><div><strong>Role assignment</strong><small>Defined permissions</small></div><b>→</b><div><strong>Policy engine</strong><small>Matrix + reason code</small></div><b>→</b><div><strong>Approval gate</strong><small>When required</small></div></div>
             <div className="architecture-lane trusted"><span>RESTRICTED SIMULATION</span><div><strong>Tool adapter</strong><small>Fictional target</small></div><b>→</b><div><strong>Verification</strong><small>Expected state</small></div><b>→</b><div><strong>Audit chain</strong><small>Browser storage</small></div></div>
           </div>
